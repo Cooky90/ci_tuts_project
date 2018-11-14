@@ -15,6 +15,9 @@
     <link rel="stylesheet" type="text/css"
           href="<?php echo base_url();?>assets/css/custom.css" />
 
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat|Roboto+Condensed" rel="stylesheet">
+
 </head>
 <body>
 <?php $this->load->view('elements/navigation'); ?>

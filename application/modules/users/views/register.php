@@ -1,4 +1,4 @@
-<div class="col-8 center-block m-top-100 register-page grey-bg">
+<div class="col-8 center-block m-top-50 register-page grey-bg">
     <h2>Register Here...!</h2>
     <?php
     $firstname = array(
