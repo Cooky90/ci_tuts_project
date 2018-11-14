@@ -15,13 +15,17 @@ class Migration_Create_Users extends CI_Migration
                 'type' => 'INT',
                 'constraint' => 5,
                 'unsigned' => TRUE,
-                'autoincrement' => TRUE
+                'auto_increment' => TRUE
             ),
             'email' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '100'
             ),
             'firstname' => array(
+                'type' => 'VARCHAR',
+                'constraint' => '100'
+            ),
+            'lastname' => array(
                 'type' => 'VARCHAR',
                 'constraint' => '100'
             ),

@@ -25,6 +25,7 @@ class Register extends MX_Controller
         $this->form_validation->set_rules('gender', 'Gender', 'trim|required');
 
         $this->form_validation->set_message('is_unique', 'The Email you are trying to register is already in use.');
+
         if($this->form_validation->run() === FALSE)
         {
         $data['title'] = 'Register';
@@ -34,11 +35,11 @@ class Register extends MX_Controller
         }
         else
         {
-            $email = $this->input->post['email'];
-            $firstname = $this->input->post['firstname'];
-            $lastname = $this->input->post['lastname'];
-            $password = $this->input->post['password'];
-            $gender = $this->input->post['gender'];
+            $email = $this->input->post('email');
+            $firstname = $this->input->post('firstname');
+            $lastname = $this->input->post('lastname');
+            $password = $this->input->post('password');
+            $gender = $this->input->post('gender');
 
             if($gender === 'male')
             {
@@ -61,12 +62,17 @@ class Register extends MX_Controller
                 'gender' => $gender
             );
             //saved in db if id returned
-            $data['insert'] = $this->user->save($userData);
+            $data['insert'] = $this->User->save($userData);
 
             if(!empty($data['insert']))
             {
+                echo "hello";
                 $this->session->set_flashdata('UserRegistered', 'You have registered successfully. Please log in.');
                 redirect('login');
+            }
+            else
+            {
+                echo "Not working!";
             }
         }
     }

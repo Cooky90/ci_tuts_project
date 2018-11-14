@@ -1,5 +1,5 @@
 <div class="col-8 center-block m-top-50 register-page grey-bg">
-    <h2>Register Here...!</h2>
+    <h2>Register</h2>
     <?php
     $firstname = array(
         'name' => 'firstname',
