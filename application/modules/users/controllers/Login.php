@@ -11,8 +11,16 @@ class Login extends MX_Controller
 {
     public function __construct()
     {
+
+
         parent::__construct();
+        /*Additional code which you want to run automatically in every function call */
+	    $this->output->set_header('Last-Modified:' . gmdate('D, d M Y H:i:s') . 'GMT');
+	    $this->output->set_header('Cache-Control: no-store, no-cache, must-revalidate');
+	    $this->output->set_header('Cache-Control: post-check=0, pre-check=0', false);
+	    $this->output->set_header('Pragma: no-cache');
         $this->load->model('User');
+        $this->load->library('MY_Form_Validation');
     }
 
     public function index()
@@ -20,7 +28,7 @@ class Login extends MX_Controller
         $this->form_validation->set_rules('login_email', 'Email ID', 'trim|valid_email|callback_login_check');
         $this->form_validation->set_rules('login_password', 'Password', 'trim|required');
 
-       if($this->form_validation->run() === FALSE)
+       if($this->form_validation->run($this) === FALSE)
         {
             $data['title'] = 'Login';
             $data['module'] = 'users';
@@ -29,14 +37,14 @@ class Login extends MX_Controller
         }
         else
         {
-            echo "Login successful";
+            redirect('dashboard');
         }
     }
 
     public function login_check()
     {
-        $email = $this->input->post($email);
-        $password = $this->input->post($password);
+        $email = $this->input->post('login_email');
+        $password = $this->input->post('login_password');
 
         if(empty($email))
         {
@@ -45,8 +53,7 @@ class Login extends MX_Controller
         }
 
         //Using MY MODEL find_by methods
-        $data['userData'] = $this->user->find_by('email', $email, NULL, TRUE);
-        print_r($data);
+        $data['userData'] = $this->User->find_by('email', $email, NULL, TRUE);
 
         if(empty($data['userData']))
         {
@@ -68,7 +75,6 @@ class Login extends MX_Controller
                     'lastname' => $data['userData']['lastname'],
                     'is_logged_in' => TRUE
                 );
-                echo $newdata;
                 $this->session->set_userdata($newdata);
                 return true;
             }
@@ -81,6 +87,10 @@ class Login extends MX_Controller
 
         }
 
-
+    }
+    public function logout()
+    {
+    $this->session->sess_destroy();
+    redirect('login','refresh');
     }
 }
