@@ -39,8 +39,13 @@ if($ids !== FALSE)
 }
 
 //check order by if it was already set
-count($this->db->order_by($this->order_by)) ||
-      $this->db->order_by($this->order_by);
+//count($this->db->order_by($this->order_by)) || $this->db->order_by($this->order_by);
+
+//use this code instead of the above
+if(!empty($this->order_by))
+{
+  $this->db->order_by($this->order_by);
+}
 
 //Return results
 $single == FALSE || $this->db->limit(1);

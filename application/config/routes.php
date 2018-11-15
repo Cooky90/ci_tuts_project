@@ -55,6 +55,10 @@ $route['register'] = 'users/register';
 $route['login'] = 'users/login';
 $route['logout'] = 'users/login/logout';
 $route['dashboard'] = 'users/dashboard';
+$route['profile'] = 'users/dashboard/profile';
+$route['edit_profile_pic'] = 'users/dashboard/edit_profile_pic';
+$route['update_profile_pic'] = 'users/dashboard/update_profile_pic';
+$route['edit_profile'] = 'users/dashboard/edit_profile';
 
 $route['default_controller'] = 'users/register';
 $route['404_override'] = '';

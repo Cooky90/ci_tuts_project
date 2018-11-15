@@ -27,5 +27,92 @@ class Dashboard extends MX_Controller
         echo Modules::run('templates/user_layout', $data);
     }
 
-    
+    public function profile()
+    {
+      $data['title'] = 'Profile';
+      $data['module'] = 'users';
+      $data['view_file'] = 'profile';
+      //running a query to find user details
+      $id = $this->session->userdata('user_id');
+      $data['user_profile'] = $this->User->find($id);
+      echo Modules::run('templates/user_layout', $data);
+    }
+
+    public function edit_profile_pic()
+    {
+        $data['title'] = 'Edit Profile Pic';
+        $data['module'] = 'users';
+        $data['view_file'] = 'edit_profile_pic';
+              //running a query to find user details
+        $id = $this->session->userdata('user_id');
+        $data['user_profile'] = $this->User->find($id);
+        echo Modules::run('templates/user_layout', $data);
+
+    }
+
+    public function update_profile_pic()
+{
+
+  $config['upload_path']         = './assets/images/users/';
+  $config['allowed_types']       = 'jpg|jpeg|png';
+  $config['max_size']            = 500;
+  $config['overwrite']           = TRUE;
+  $config['remove_spaces']       = TRUE;
+  $config['encrypt_name']        = TRUE;
+
+  $this->load->library('upload', $config);
+  $field_name = 'profilefile';
+
+  if( ! $this->upload->do_upload($field_name))
+  {
+      $data['error'] = $this->upload->display_errors();
+      $this->session->set_flashdata('UpdateProfilePicError', $data['error']);
+      redirect('edit_profile_pic');
+  }
+
+  else
+  {
+
+    $id = $this->session->userdata('user_id');
+    //get default image
+    $data['profile_pic'] = $this->User->find($id);
+    $profile_pic = $data['profile_pic']['profile_pic'];
+
+    $image_path = $this->upload->data();
+    $data = array(
+      'profile_pic' => $image_path[file_name],
+    );
+
+    $data['update'] = $this->User->save($data, $id);
+
+    if($data['update'] == $id)
+    {
+      if($profile_pic !== 'male.png' && $profile_pic !== 'female.png')
+      {
+        unlink(FCPATH . 'assets/images/users/'. $profile_pic);
+      }
+
+      $this->session->set_flashdata('ProfileImageUpdated',
+                                    'Image Updated Successfully');
+
+      redirect('edit_profile_pic');
+
+    }
+
+    else 
+    {
+      echo 'can not update image';
+    }
+
+    }
+} 
+
+    public function edit_profile()
+    {
+        
+    }
+
+
+
+
 }
