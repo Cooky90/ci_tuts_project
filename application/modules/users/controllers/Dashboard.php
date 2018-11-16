@@ -109,7 +109,36 @@ class Dashboard extends MX_Controller
 
     public function edit_profile()
     {
-        
+
+    	$this->form_validation->set_rules('firstname', 'Firstname', 'trim|required|min_length[2]|max_length[50]');
+        $this->form_validation->set_rules('lastname', 'Lastname', 'trim|required|min_length[2]|max_length[50]');
+        $this->form_validation->set_rules('email', 'Email Address', 'trim|required|valid_email');
+        $this->form_validation->set_rules('about', 'About', 'trim|required|min_length[300]');
+
+        if($this->form_validation->run() === FALSE)
+        {
+	        $data['title'] = 'Edit Profile';
+	        $data['module'] = 'users';
+	        $data['view_file'] = 'edit_profile';
+	              //running a query to find user details
+	        $id = $this->session->userdata('user_id');
+	        $data['user_profile'] = $this->User->find($id);
+	        echo Modules::run('templates/user_layout', $data);
+    	}
+    	else
+    	{
+    		$id = $this->session->userdata('user_id');
+    		$firstname = $this->input->post('firstname');
+    		$lastname = $this->input->post('lastname');
+    		$about = $this->input->post('about');
+
+    		$userData = array(
+    			'firstname' => $firstname,
+    			'lastname' => $lastname,
+    			'about' => $about
+    		)
+    	}
+
     }
 
 
